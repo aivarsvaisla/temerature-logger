@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Temperature Monitor</title>
+  <title>Temperatūras mērījumi</title>
   <style>
     body { font-family: sans-serif; }
     .ok { color: green; }
@@ -30,22 +30,22 @@ fetch("data.json?ts=" + Date.now())
       d.temperature + " °C";
 
     document.getElementById("time").textContent =
-      "Measured at: " + measuredAt.toLocaleString();
+      "Pēdējā mērījuma laiks: " + measuredAt.toLocaleString();
 
     const statusEl = document.getElementById("status");
 
     if (isNaN(age) || age > MAX_AGE) {
       statusEl.textContent =
-        "⚠ ERROR: No temperature update in the last 30 minutes";
+        "⚠ KĻŪDA: pēdējo 30 minūšu laikā mērījumi nav ienākuši";
       statusEl.className = "error";
     } else {
-      statusEl.textContent = "✓ Data is fresh";
+      statusEl.textContent = "✓ Datu plūsma kārtībā";
       statusEl.className = "ok";
     }
   })
   .catch(() => {
     document.getElementById("status").textContent =
-      "⚠ ERROR: Unable to load data";
+      "⚠ KĻŪDA: pēdējo 30 minūšu laikā mērījumi nav ienākuši";
   });
 </script>
 
