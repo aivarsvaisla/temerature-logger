@@ -3,21 +3,51 @@
 <head>
   <meta charset="utf-8">
   <title>Temperature Monitor</title>
+  <style>
+    body { font-family: sans-serif; }
+    .ok { color: green; }
+    .error { color: red; font-weight: bold; }
+  </style>
 </head>
 <body>
-  <h1>Temperatūras mērījums</h1>
-  <p id="temp">Loading...</p>
-  <p id="time"></p>
 
-  <script>
-    fetch("data.json")
-      .then(r => r.json())
-      .then(d => {
-        document.getElementById("temp").textContent =
-          d.temperature + " °C";
-        document.getElementById("time").textContent =
-          "Mērījuma laiks: " + d.timestamp;
-      });
-  </script>
+<h1>Temperature Monitor</h1>
+
+<p id="temp">Loading...</p>
+<p id="time"></p>
+<p id="status"></p>
+
+<script>
+const MAX_AGE = 30 * 60 * 1000; // 30 minutes
+
+fetch("data.json?ts=" + Date.now())
+  .then(r => r.json())
+  .then(d => {
+    const measuredAt = new Date(d.timestamp);
+    const age = Date.now() - measuredAt.getTime();
+
+    document.getElementById("temp").textContent =
+      d.temperature + " °C";
+
+    document.getElementById("time").textContent =
+      "Measured at: " + measuredAt.toUTCString();
+
+    const statusEl = document.getElementById("status");
+
+    if (isNaN(age) || age > MAX_AGE) {
+      statusEl.textContent =
+        "⚠ ERROR: No temperature update in the last 30 minutes";
+      statusEl.className = "error";
+    } else {
+      statusEl.textContent = "✓ Data is fresh";
+      statusEl.className = "ok";
+    }
+  })
+  .catch(() => {
+    document.getElementById("status").textContent =
+      "⚠ ERROR: Unable to load data";
+  });
+</script>
+
 </body>
 </html>
