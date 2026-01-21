@@ -30,7 +30,7 @@ fetch("data.json?ts=" + Date.now())
       d.temperature + " °C";
 
     document.getElementById("time").textContent =
-      "Measured at: " + measuredAt.toUTCString();
+      "Measured at: " + measuredAt.toLocaleString();
 
     const statusEl = document.getElementById("status");
 
