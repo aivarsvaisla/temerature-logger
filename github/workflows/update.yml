@@ -1,0 +1,26 @@
+name: Update temperature
+
+on:
+  repository_dispatch:
+    types: [temperature_update]
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Update data.json
+        run: |
+          echo '{
+            "temperature": '"${{ github.event.client_payload.temperature }}"',
+            "timestamp": "'"$(date -u +%Y-%m-%dT%H:%M:%SZ)"'"
+          }' > data.json
+
+      - name: Commit and push
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git add data.json
+          git commit -m "Update temperature"
+          git push
