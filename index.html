@@ -23,7 +23,7 @@ const MAX_AGE = 30 * 60 * 1000; // 30 minutes
 fetch("data.json?ts=" + Date.now())
   .then(r => r.json())
   .then(d => {
-    const measuredAt = new Date(d.timestamp);
+    const measuredAt = new Date(d.timestamp * 1000);
     const age = Date.now() - measuredAt.getTime();
 
     document.getElementById("temp").textContent =
