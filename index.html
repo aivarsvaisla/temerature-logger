@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Temperature Monitor</title>
+</head>
+<body>
+  <h1>Last Temperature</h1>
+  <p id="temp">Loading...</p>
+  <p id="time"></p>
+
+  <script>
+    fetch("data.json")
+      .then(r => r.json())
+      .then(d => {
+        document.getElementById("temp").textContent =
+          d.temperature + " °C";
+        document.getElementById("time").textContent =
+          "Measured at: " + d.timestamp;
+      });
+  </script>
+</body>
+</html>
